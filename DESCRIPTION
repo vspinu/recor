@@ -1,0 +1,33 @@
+Package: recor
+Version: 0.1-8
+Date: 2015-09-09
+Title: Recommender systems for R
+Authors@R: c(person("Vitalie", "Spinu", role=c("aut","cre","cph"), email="spinuvit@gmail.com"))
+Description: Provide an infrastructure for testing and developing of
+    recommender algorithms. Inspired by the recommenderlab package.
+Depends:
+    R (>= 3.1.1),
+    Matrix
+Imports:
+    methods
+URL: http://github.com/vspinu/recor
+License: GPL-2
+Collate:
+    'RecoEval.R'
+    'RecoPartition.R'
+    'accuracy.R'
+    'commonS4.R'
+    'ratingMatrix.R'
+    'binaryRatingMatrix.R'
+    'norm.R'
+    'package.R'
+    'plot.R'
+    'predict.R'
+    'proxy4.R'
+    'realRatingMatrix.R'
+    'reco.R'
+    'recoIBCF.R'
+    'recoUBCF.R'
+    'rowcols.R'
+    'utils.R'
+    'weight.R'

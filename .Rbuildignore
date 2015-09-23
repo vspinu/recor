@@ -1,0 +1,9 @@
+.svn
+TODO
+not_yet
+Work
+^.*\.Rproj$
+^\.Rproj\.user$
+\.dir-locals.*
+Vignettes
+\.Rhist*
