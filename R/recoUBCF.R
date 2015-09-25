@@ -2,14 +2,16 @@
 ##' @export
 setGeneric("recoUBCF",
            function(data, similarity = "cosine", nn = Inf, weighted = TRUE,
-                    sample = NULL, keep_data = FALSE, ...)
+                    sample = NULL, keep_data = FALSE, sim_transformer = NULL, 
+                    ...)
     standardGeneric("recoUBCF"),
     signature = "data",
     valueClass = "Reco")
 
 setMethod("recoUBCF", "CsparseMatrix", 
           function(data, similarity = "cosine", nn = 30, weighted = TRUE,
-                   sample = NULL, keep_data = FALSE, ...){
+                   sample = NULL, keep_data = FALSE,
+                   sim_transformer = NULL, ...){
 
               ## fixme: if sampled, we need to store the data
               if(!is.null(sample))
@@ -27,6 +29,9 @@ predUBCF <- function(object, newdata,
     data <- pred_get_data(object, data)
     
     sim <- similarity(newdata, data, method = object@params$similarity, byrows = T, ...)
+
+    if(!is.null(sim_trans <- object@params$sim_transformer))
+        sim <- sim_trans(sim)
     
     if(nn < nrow(data))
         sim <- keepK(sim, nn, byrows = T)

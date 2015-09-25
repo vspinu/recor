@@ -2,17 +2,21 @@
 ##' @export
 setGeneric("recoIBCF",
            function(data, similarity = "cosine", nn = Inf, 
-                    sample = NULL, keep_data = FALSE, ...)
+                    sample = NULL, keep_data = FALSE,
+                    sim_transformer = NULL, ...)
     standardGeneric("recoIBCF"),
     signature = "data",
     valueClass = "Reco")
 
 setMethod("recoIBCF", "CsparseMatrix", 
           function(data, similarity = "cosine", nn = Inf,
-                   sample = NULL, keep_data = FALSE, ...){
+                   sample = NULL, keep_data = FALSE,
+                   sim_transformer = NULL, ...){
               ## fixme: add sampling
 
               sim <- similarity(data, method = similarity, byrows = FALSE, ...)
+              if(!is.null(sim_transformer))
+                  sim <- sim_transformer(sim)
               if(nn < Inf && nn < ncol(data))
                   sim <- keepK(sim, nn, byrows = FALSE)
               
