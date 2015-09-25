@@ -48,8 +48,8 @@ dropNA <- function(x) {
         x
     } else {
         if(.hasSlot(x, "x")){
-            x@x[is.na(x)] <- 0
-            drop(x)
+            x@x[is.na(x@x)] <- 0
+            drop0(x)
         } else {
             ## nothing to do
             x

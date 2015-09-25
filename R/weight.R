@@ -17,3 +17,12 @@ weightIDF <- function(x, by_rows = T){
     }
     log(n/(1 + s))
 }
+
+
+##' @export
+weightSQRTDF <- function(x, by_rows = T){
+    s <-
+        if(by_rows) rowSums(abs(x))
+        else colSums(abs(x))
+    sqrt(s)
+}
