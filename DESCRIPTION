@@ -27,6 +27,7 @@ Collate:
     'realRatingMatrix.R'
     'reco.R'
     'recoIBCF.R'
+    'recoPopular.R'
     'recoUBCF.R'
     'rowcols.R'
     'utils.R'

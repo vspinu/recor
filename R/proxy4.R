@@ -70,7 +70,7 @@ distance <- function(x, y = NULL, method = "cosine", byrows = F, ...){
             w <- Diagonal(x = get_weight(x, weight, !byrows))
             x <- w %*% x
             if (!is.null(y)) {
-                w <- Diagonal( x = get_weight(y, weight, !byrows))
+                w <- Diagonal(x = get_weight(y, weight, !byrows))
                 y <- w %*% y
             }
         }
