@@ -129,7 +129,7 @@ setMethod("simCosine", c("ANY", "ANY"),
 
 
 
-### KARPIS
+### KARYPIS
 ## Karypis similarity
 .karypis <- function(x, dist, args=NULL) {
     

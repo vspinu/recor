@@ -1,3 +1,7 @@
+##' @export
+getNon0Ix <- function(mat){
+    1L + Matrix:::encodeInd(Matrix:::non0ind(mat), dim(mat))
+}
 
 .qsample <- function(x, n){
     ## R's 'sample' is cretinous

@@ -9,7 +9,7 @@ RecoEval <- function(partition, reco_list, ns = c(1, 3, 10, 20), good_rating = N
         lapply(names(reco_list), function(nm){
             cbind(reco = nm,
                   eval_one(partition, reco_list[[nm]], ns = ns, good_rating = good_rating,
-                           binarize = binarize, progress = progress, ...))
+                           binarize = binarize, progress = progress))
         })
     
     ## errs <- sapply(results, is, "try-error")
@@ -24,7 +24,7 @@ RecoEval <- function(partition, reco_list, ns = c(1, 3, 10, 20), good_rating = N
     out
 }
 
-eval_one <- function(partition, params, ns, good_rating, binarize, progress,  ...) {
+eval_one <- function(partition, params, ns, good_rating, binarize, progress) {
 
     P <- .separate_name(params)
     
@@ -34,7 +34,7 @@ eval_one <- function(partition, params, ns, good_rating, binarize, progress,  ..
         lapply(1:partition@k, function(nth){
             if(progress) cat(" ", nth, "\t")
             cbind(fold = nth,
-                  run_nth(partition, nth, ns, P, good_rating, binarize, progress, ...))
+                  run_nth(partition, nth, ns, P, good_rating, binarize, progress))
         })
 
     if(progress) cat("\n")
@@ -43,7 +43,7 @@ eval_one <- function(partition, params, ns, good_rating, binarize, progress,  ..
 }
 
 ## note! we are intentionally ignoring new newdata here
-run_nth <- function(partition, nth, ns, P, good_rating, binarize, progress, newdata, ...){
+run_nth <- function(partition, nth, ns, P, good_rating, binarize, progress, newdata){
 
     ## prepare data
     train <- .get_fold(partition, nth, type="train")
@@ -51,17 +51,20 @@ run_nth <- function(partition, nth, ns, P, good_rating, binarize, progress, newd
     utest <- .get_fold(partition, nth, type="unknown")
     
     ## train recommender
+    train_param <- P$params[names(reco@params)]
     time_train <-
         system.time({
-            params <- c(list(as.name(P$full_name), data = train), P$params)
+            params <- c(list(as.name(P$full_name), data = train), train_param)
             params[["keep_data"]] <- NULL
             ## No do.call here. It is called as anonymous function which we
             ## cannot detect in .Reco.
             reco <- eval(as.call(params))
         })
-    
+
+    predict_param <- P$params
+    predict_param[names(reco@params)] <- NULL
     time_pred <- system.time({
-        pre <- predict(reco, newdata = ktest, data = train, ...)
+        pre <- do.call(predict, c(list(reco, newdata = ktest, data = train), predict_param))
         pre <- removeKnownRatings(pre, ktest)
     })
 
